@@ -20,6 +20,7 @@ def main():
     print(tabu_search(initial_solution, clauses, range_literal))
     end = time.time()
     print(f"time: {end - ini}")
+    open("log.txt", "a").write(f"time: {time}")
 
 
 if __name__ == "__main__":

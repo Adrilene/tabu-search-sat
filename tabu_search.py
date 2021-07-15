@@ -1,5 +1,5 @@
 import copy
-from configuration import nmax, delta_to_intensficate
+from configuration import nmax, delta_to_intensficate, repetitive_solution
 from neighborhood import generate_neighborhood
 from diversification import generate_diversed_neighbors
 from intensification import generate_closer_neighbors
@@ -14,27 +14,28 @@ def tabu_search(initial_solution, clauses, range_literal):
     count_repetitive_solution = 0
     is_intesificated = False
     previous_value = 0
+    history_solution = []
     M = 1
 
     while count < nmax:
         # while 100:
-
+        history_solution.append(current_solution[0])
         if (
             len(clauses) - current_value <= delta_to_intensficate
             and not is_intesificated
         ):
             neighborhood = generate_closer_neighbors(current_solution[0])
             is_intesificated = True
-            open("log.txt", "a").write("Intesified\n")
+            open("log.txt", "a").write("Intesified ")
 
         else:
-            if count_repetitive_solution < 50:
+            if count_repetitive_solution < repetitive_solution:
                 neighborhood = generate_neighborhood(current_solution, range_literal)
             else:
                 neighborhood = generate_diversed_neighbors(
-                    current_solution, range_literal
+                    history_solution, range_literal
                 )
-                open("log.txt", "a").write("Diversed\n")
+                open("log.txt", "a").write("Diversed ")
                 is_intesificated = False
 
         neighborhood_values = [
@@ -81,5 +82,8 @@ def tabu_search(initial_solution, clauses, range_literal):
             count_repetitive_solution = 0
         count += 1
 
+    open("log.txt", "a").write(
+        f"count: {count} | max_neighborhood_values: {max(neighborhood_values)} \n"
+    )
     return current_solution[0], current_value
 
