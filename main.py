@@ -14,7 +14,7 @@ def main():
     clauses = []
 
     for line in dataset[1 : range_clause + 1]:
-        clauses.append(list(map(int, line.replace(" \n", "").split(" "))))
+        clauses.append(list(map(int, line.replace("\n", "").strip().split(" "))))
 
     initial_solution = ([choice([True, False]) for _ in range(range_literal)], -1, -1)
     print(tabu_search(initial_solution, clauses, range_literal))
