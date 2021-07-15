@@ -4,7 +4,7 @@ import time
 from utils import calculate_len_of_neighbors
 
 
-def disturb_solution(solution):  # REFATOR
+def disturb_solution(solution):
     solution_copy = copy.deepcopy(solution[0])
     random.seed(time.time())
     indexes = sorted(random.sample(range(0, len(solution[0])), k=2))  # FIX

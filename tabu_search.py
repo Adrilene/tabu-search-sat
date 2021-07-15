@@ -15,10 +15,8 @@ def tabu_search(initial_solution, clauses, range_literal):
     is_intesificated = False
     previous_value = 0
     history_solution = []
-    M = 1
 
     while count < nmax:
-        # while 100:
         history_solution.append(current_solution[0])
         if (
             len(clauses) - current_value <= delta_to_intensficate
@@ -43,7 +41,7 @@ def tabu_search(initial_solution, clauses, range_literal):
         ]
         max_index = neighborhood_values.index(
             max(neighborhood_values)
-        )  # Index do melhor vizinho
+        )
         best_solution = neighborhood[max_index]
         if (max(neighborhood_values)) == len(clauses):
             current_solution = best_solution
@@ -52,17 +50,14 @@ def tabu_search(initial_solution, clauses, range_literal):
             break
 
         while True:
-            # check if all elements have been visited
             open("log.txt", "a").write(
                 f"count: {count} | max_neighborhood_values: {max(neighborhood_values)} \n"
             )
             if sorted(best_solution[1]) in tabu_queue:
-                ## TODO: change logic for accept
                 if aspiration(max(neighborhood_values), current_value):
                     current_solution = best_solution
                     previous_value = current_value
                     current_value = max(neighborhood_values)
-                    M = count
                     break
                 else:
                     neighborhood_values[max_index] = 0
@@ -73,7 +68,6 @@ def tabu_search(initial_solution, clauses, range_literal):
                 previous_value = current_value
                 current_value = max(neighborhood_values)
                 tabu_queue = update_tabu(tabu_queue, best_solution[1])
-                M = count
                 break
 
         if current_value == previous_value:
@@ -82,8 +76,5 @@ def tabu_search(initial_solution, clauses, range_literal):
             count_repetitive_solution = 0
         count += 1
 
-    open("log.txt", "a").write(
-        f"count: {count} | max_neighborhood_values: {max(neighborhood_values)} \n"
-    )
-    return current_solution[0], current_value
+    return current_solution[0], current_value, count
 
