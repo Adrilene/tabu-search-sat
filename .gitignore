@@ -6,6 +6,7 @@ output.png
 # C extensions
 *.so
 dataset
+log.csv
 # Distribution / packaging
 .Python
 build/

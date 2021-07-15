@@ -15,6 +15,7 @@ def tabu_search(initial_solution, clauses, range_literal):
     is_intesificated = False
     previous_value = 0
     history_solution = []
+    qtd_strategy = {'Intesified': 0, 'Diversed': 0}
 
     while count < nmax:
         history_solution.append(current_solution[0])
@@ -24,7 +25,7 @@ def tabu_search(initial_solution, clauses, range_literal):
         ):
             neighborhood = generate_closer_neighbors(current_solution[0])
             is_intesificated = True
-            open("log.txt", "a").write("Intesified ")
+            qtd_strategy['Intesified'] += 1
 
         else:
             if count_repetitive_solution < repetitive_solution:
@@ -33,7 +34,7 @@ def tabu_search(initial_solution, clauses, range_literal):
                 neighborhood = generate_diversed_neighbors(
                     history_solution, range_literal
                 )
-                open("log.txt", "a").write("Diversed ")
+                qtd_strategy['Diversed'] += 1
                 is_intesificated = False
 
         neighborhood_values = [
@@ -50,9 +51,7 @@ def tabu_search(initial_solution, clauses, range_literal):
             break
 
         while True:
-            open("log.txt", "a").write(
-                f"count: {count} | max_neighborhood_values: {max(neighborhood_values)} \n"
-            )
+            open("log.csv", "a").write(f"{count}; {list(map(int, current_solution[0]))}; {current_value}\n")
             if sorted(best_solution[1]) in tabu_queue:
                 if aspiration(max(neighborhood_values), current_value):
                     current_solution = best_solution
@@ -76,5 +75,5 @@ def tabu_search(initial_solution, clauses, range_literal):
             count_repetitive_solution = 0
         count += 1
 
-    return current_solution[0], current_value, count
+    return current_solution[0], current_value, count, qtd_strategy
 
