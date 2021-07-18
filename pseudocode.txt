@@ -1,0 +1,48 @@
+FUNCTION TabuSearch():
+    WHILE count < nmax:
+        history_solution.append(current_solution)
+        IF len(clauses) - current_value <= delta_to_intensficate:
+            neighborhood = generate_closer_neighbors(current_solution[0])
+        ELSE:
+            IF count_repetitive_solution < repetitive_solution:
+                neighborhood = generate_neighborhood(current_solution, 
+                                                     history_solution,
+                                                     range_literal)
+            ELSE:
+                neighborhood = generate_diversed_neighbors(history_solution, range_literal)
+
+        neighborhood_values = get_neighborhood_values(neighborhood)
+        max_index = get_max_index(max(neighborhood_values))
+        best_solution = neighborhood[max_index]
+        IF (max(neighborhood_values)) == len(clauses):
+            current_solution = best_solution
+            previous_value = current_value
+            current_value = max(neighborhood_values)
+            BREAK
+
+        WHILE True:
+            IF sorted(best_solution[1]) in tabu_queue:
+                IF aspiration(max(neighborhood_values), current_value):
+                    current_solution = best_solution
+                    previous_value = current_value
+                    current_value = max(neighborhood_values)
+                    BREAK
+                ELSE:
+                    neighborhood_values[max_index] = 0
+                    max_index = neighborhood_values.index(max(neighborhood_values))
+                    best_solution = neighborhood[max_index]
+            ELSE:
+                current_solution = best_solution
+                previous_value = current_value
+                current_value = max(neighborhood_values)
+                tabu_queue = update_tabu(tabu_queue, best_solution[1])
+                BREAK
+
+        IF current_value == previous_value:
+            count_repetitive_solution += 1
+        ELSE:
+            count_repetitive_solution = 0
+        count += 1
+
+    RETURN current_solution[0], current_value, count
+

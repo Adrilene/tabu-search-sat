@@ -5,8 +5,8 @@ __pycache__/
 output.png
 # C extensions
 *.so
+*.csv
 dataset
-log.csv
 # Distribution / packaging
 .Python
 build/

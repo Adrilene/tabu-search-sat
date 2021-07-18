@@ -13,14 +13,15 @@ def disturb_solution(solution):
     return solution_copy, indexes
 
 
-def generate_neighborhood(solution, range_literal):
+def generate_neighborhood(solution, history_solution,range_literal):
     nv = calculate_len_of_neighbors(range_literal)
     neighborhood = []
     while len(neighborhood) < nv:
         troubled_solution, indexes = disturb_solution(solution)
+        history_solution.append(troubled_solution)
         complete_solution = (troubled_solution, indexes)
         if complete_solution not in neighborhood:
             neighborhood.append(complete_solution)
 
-    return neighborhood
+    return neighborhood, history_solution
 
