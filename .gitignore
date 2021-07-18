@@ -132,3 +132,4 @@ dmypy.json
 /instance_files/*
 configuration.py
 log.txt
+/
