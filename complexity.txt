@@ -45,5 +45,3 @@ FUNCTION TabuSearch(): -> O(n)
 
     RETURN current_solution[0], current_value, count
 
-
-
