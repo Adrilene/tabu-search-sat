@@ -6,7 +6,7 @@ from intensification import generate_closer_neighbors
 from utils import update_tabu, aspiration, assignment
 
 
-def tabu_search(initial_solution, clauses, range_literal):
+def tabu_search(initial_solution, clauses, range_literal, optimal_value):
     current_solution = copy.deepcopy(initial_solution)
     current_value = assignment(current_solution[0], clauses)
     tabu_queue = []
@@ -43,7 +43,9 @@ def tabu_search(initial_solution, clauses, range_literal):
             max(neighborhood_values)
         )
         best_solution = neighborhood[max_index]
-        if (max(neighborhood_values)) == len(clauses):
+        
+        # test if optimal value was reached
+        if (max(neighborhood_values)) == optimal_value:
             current_solution = best_solution
             previous_value = current_value
             current_value = max(neighborhood_values)
