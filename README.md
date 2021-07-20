@@ -3,11 +3,11 @@
 ## Tutorial
 
 ### Defining the 3-SAT problem instance path
-Rename the configuration.example.py file to configuration.py and set its respective parameters, as not shown below:
+Rename the configuration.example.py file to configuration.py and set its respective parameters, as shown below:
 
 ![configuration](image/config.jpeg)
 
-The instance of the problem must follow the same structure as shown in the image below, where in the first line we have the amount of literals and clauses and the other lines represent the problem:
+The instance of the problem must follow the same structure as shown in the image below, where in the first line we have the amount of literals and clauses and the other lines represent the clauses:
 
 ![instance](image/instance.png)
 
