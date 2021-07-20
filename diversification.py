@@ -18,11 +18,9 @@ def disturb_solution_diversed(solution):
     return solution_copy, indexes
 
 
-def generate_diversed_neighbors(history, range_literal):
-    while True:
-        solution = [choice([True, False]) for _ in range(range_literal)]
-        if solution not in history:
-            break
+def generate_diversed_neighbors(range_literal):
+    random.seed(time.time())
+    solution = [choice([True, False]) for _ in range(range_literal)]
     nv = calculate_len_of_neighbors(range_literal)
     neighborhood = []
     while len(neighborhood) < nv:
