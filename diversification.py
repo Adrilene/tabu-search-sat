@@ -1,8 +1,9 @@
-from utils import calculate_len_of_neighbors
+from utils import calculate_len_of_neighbors, assignment
 import copy
 import random
 from random import choice
 import time
+from configuration import interval
 
 
 def disturb_solution_diversed(solution):
@@ -18,9 +19,24 @@ def disturb_solution_diversed(solution):
     return solution_copy, indexes
 
 
-def generate_diversed_neighbors(range_literal):
+def accept_interval(best_solution, interval, solution, clauses):
+    value = assignment(solution, clauses)
+    ini = best_solution - interval
+    end = best_solution + interval
+    print(f'ini:{ini} - value:{value} - end:{end}')
+    if value >= ini and value <= end:
+        return True
+    return False
+
+
+
+def generate_diversed_neighbors(history, range_literal, best_solution, clauses):
     random.seed(time.time())
-    solution = [choice([True, False]) for _ in range(range_literal)]
+    while True:
+        solution = [choice([True, False]) for _ in range(range_literal)]
+        if solution not in history and accept_interval(best_solution, interval, solution, clauses):
+            history.append(solution)
+            break
     nv = calculate_len_of_neighbors(range_literal)
     neighborhood = []
     while len(neighborhood) < nv:
@@ -29,5 +45,5 @@ def generate_diversed_neighbors(range_literal):
         if complete_solution not in neighborhood:
             neighborhood.append(complete_solution)
 
-    return neighborhood
+    return neighborhood, history
 

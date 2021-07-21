@@ -17,7 +17,8 @@ def main():
         clauses.append(list(map(int, line.replace("\n", "").strip().split(" "))))
 
     initial_solution = ([choice([True, False]) for _ in range(range_literal)], -1, -1)
-    optimal_value = sys.argv[0] if sys.argv else range_clause
+    optimal_value = range_clause
+    print(sys.argv[0])
     result, best_value, count, qtd_strategy = tabu_search(initial_solution, clauses, range_literal, optimal_value)
     end = time.time()
     result = list(map(int, result))

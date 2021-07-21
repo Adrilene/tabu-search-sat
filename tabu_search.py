@@ -15,8 +15,10 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
     is_intesificated = False
     previous_value = 0
     qtd_strategy = {'Intesified': 0, 'Diversed': 0}
+    history = []
 
     while count < nmax:
+        history.append(current_solution)
         if (
             len(clauses) - current_value <= delta_to_intensficate
             and not is_intesificated
@@ -29,7 +31,7 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
             if count_repetitive_solution < repetitive_solution:
                 neighborhood = generate_neighborhood(current_solution, range_literal)
             else:
-                neighborhood = generate_diversed_neighbors(range_literal)
+                neighborhood, history = generate_diversed_neighbors(history, range_literal, best_solution, clauses)
                 qtd_strategy['Diversed'] += 1
                 is_intesificated = False
 
