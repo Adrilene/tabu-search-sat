@@ -14,7 +14,7 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
     count_repetitive_solution = 0
     is_intesificated = False
     previous_value = 0
-    qtd_strategy = {'Intesified': 0, 'Diversed': 0}
+    qtd_strategy = {"Intesified": 0, "Diversed": 0}
     history = []
 
     while count < nmax:
@@ -25,24 +25,24 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
         ):
             neighborhood = generate_closer_neighbors(current_solution[0])
             is_intesificated = True
-            qtd_strategy['Intesified'] += 1
+            qtd_strategy["Intesified"] += 1
 
         else:
             if count_repetitive_solution < repetitive_solution:
                 neighborhood = generate_neighborhood(current_solution, range_literal)
             else:
-                neighborhood, history = generate_diversed_neighbors(history, range_literal, best_solution, clauses)
-                qtd_strategy['Diversed'] += 1
+                neighborhood, history = generate_diversed_neighbors(
+                    history, range_literal, current_value, clauses
+                )
+                qtd_strategy["Diversed"] += 1
                 is_intesificated = False
 
         neighborhood_values = [
             assignment(neighborhood[i][0], clauses) for i in range(len(neighborhood))
         ]
-        max_index = neighborhood_values.index(
-            max(neighborhood_values)
-        )
+        max_index = neighborhood_values.index(max(neighborhood_values))
         best_solution = neighborhood[max_index]
-        
+
         # test if optimal value was reached
         if (max(neighborhood_values)) == optimal_value:
             current_solution = best_solution
@@ -51,7 +51,9 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
             break
 
         while True:
-            open("log.csv", "a").write(f"{count}; {list(map(int, current_solution[0]))}; {current_value}\n")
+            open("log.csv", "a").write(
+                f"{count}; {list(map(int, current_solution[0]))}; {current_value}\n"
+            )
             if sorted(best_solution[1]) in tabu_queue:
                 if aspiration(max(neighborhood_values), current_value):
                     current_solution = best_solution
@@ -75,6 +77,8 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
             count_repetitive_solution = 0
         count += 1
 
-    open("log.csv", "a").write(f"{count}; {list(map(int, current_solution[0]))}; {current_value}\n")
+    open("log.csv", "a").write(
+        f"{count}; {list(map(int, current_solution[0]))}; {current_value}\n"
+    )
     return current_solution[0], current_value, count, qtd_strategy
 
