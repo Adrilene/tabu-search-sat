@@ -26,7 +26,8 @@ def aspiration_by_influence(best_value, current_value, optimal_value):
     if abs(best_value - current_value) >= delta_aspiration:
         return True
     if (
-        optimal_value - best_value <= delta_to_intensficate
+        optimal_value - best_value <= delta_aspiration
+        and optimal_value - best_value >= 0
         and best_value > current_value
     ):
         return True

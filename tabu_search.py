@@ -32,6 +32,7 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
             neighborhood = generate_closer_neighbors(current_solution[0])
             is_intesificated = True
             qtd_strategy["Intesified"] += 1
+            print("intensificated")
 
         else:
             if count_repetitive_solution < repetitive_solution:
@@ -82,7 +83,8 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
                 is_intesificated = False
                 break
 
-        if abs(current_value - previous_value) <= 1:
+        if previous_value - current_value <= 1:
+            # if current_value == previous_value:
             count_repetitive_solution += 1
         else:
             count_repetitive_solution = 0
