@@ -1,17 +1,30 @@
-from configuration import tabu_size
+from configuration import tabu_size, delta_aspiration
 from math import factorial
 
 
 def update_tabu(queue, value):
-    global tabu_size
     if len(queue) >= tabu_size:
         queue.pop(0)
     queue.append(sorted(value))
     return queue
 
 
-def aspiration(best_value, current_value):
+def change_positions_tabu(queue, value):
+    queue.pop(queue.index(value))
+    queue.append(value)
+    return queue
+
+
+def aspiration_by_objective(best_value, current_value):
     if best_value > current_value:
+        return True
+    return False
+
+
+def aspiration_by_influence(best_value, current_value, optimal_value):
+    if abs(best_value - current_value) >= delta_aspiration:
+        return True
+    if optimal_value - best_value <= delta_aspiration and best_value > current_value:
         return True
     return False
 

@@ -17,23 +17,11 @@ def disturb_solution_diversed(solution):
     return solution_copy, indexes
 
 
-def accept_interval(current_value, interval, solution, clauses):
-    value = assignment(solution, clauses)
-    ini = current_value - interval
-    end = current_value + interval
-    print(f"ini:{ini} - value:{value} - end:{end}")
-    if value >= ini and value <= end:
-        return True
-    return False
-
-
-def generate_diversed_neighbors(history, range_literal, best_solution, clauses):
+def generate_diversed_neighbors(history, range_literal):
     random.seed(time.time())
     while True:
         solution = [choice([True, False]) for _ in range(range_literal)]
-        if solution not in history and accept_interval(
-            best_solution, interval, solution, clauses
-        ):
+        if solution not in history:
             history.append(solution)
             break
     nv = calculate_len_of_neighbors(range_literal)
