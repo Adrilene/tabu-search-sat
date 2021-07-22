@@ -2,6 +2,7 @@ import time
 from configuration import sat_file
 from tabu_search import tabu_search
 from random import choice
+from datetime import datetime
 import sys
 
 def main():
@@ -18,7 +19,6 @@ def main():
 
     initial_solution = ([choice([True, False]) for _ in range(range_literal)], -1, -1)
     optimal_value = range_clause
-    print(sys.argv[0])
     result, best_value, count, qtd_strategy = tabu_search(initial_solution, clauses, range_literal, optimal_value)
     end = time.time()
     result = list(map(int, result))

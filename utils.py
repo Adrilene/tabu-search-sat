@@ -1,5 +1,6 @@
 from configuration import tabu_size, delta_aspiration
 from math import factorial
+import random
 
 
 def update_tabu(queue, value):
@@ -48,3 +49,6 @@ def calculate_len_of_neighbors(n):
     if nv > 1000:
         return 1000
     return nv
+
+def get_random_solution(one, two):
+    return random.choices([one, two], [0.5, 0.5], k=1)[0]
