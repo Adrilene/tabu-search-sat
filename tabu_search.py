@@ -38,7 +38,7 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
                 neighborhood = generate_neighborhood(current_solution, range_literal)
             else:
                 neighborhood, history = generate_diversed_neighbors(
-                    history, clauses, range_literal
+                    history, clauses, current_value, range_literal
                 )
                 qtd_strategy["Diversed"] += 1
 
