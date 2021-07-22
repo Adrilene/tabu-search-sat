@@ -27,12 +27,9 @@ def generate_diversed_neighbors(history, clauses, range_literal):
             for solution_one, solution_two in zip(history_sample[0], history_sample[1]):
                 choice.append(get_random_solution(solution_one, solution_two))
             solutions.append(choice)
-        for solution in solutions:
-            values.append((assignment(solution, clauses)))
-        max_index = values.index(max(values))
-        if solutions[max_index] not in history:
-            history.append(solutions[max_index])
-            solution = solutions[max_index]
+        solution = random.choice(solutions)
+        if solution not in history:
+            history.append(solution)
             break
         else:
             solution = [
