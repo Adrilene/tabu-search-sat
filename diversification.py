@@ -16,30 +16,34 @@ def disturb_solution_diversed(solution):
     return solution_copy, indexes
 
 
-def generate_diversed_neighbors(history, clauses, range_literal):
+def generate_diversed_neighbors(history, clauses, current_value, range_literal):
     print("Make Diversification")
     random.seed(time.time())
     solutions, values = [], []
     while True:
         for _ in range(random_repetitive):
-            history_sample = random.sample(history, 2)
+            history_sample = random.sample(history, 5)
             choice = []
-            for solution_one, solution_two in zip(history_sample[0], history_sample[1]):
-                choice.append(get_random_solution(solution_one, solution_two))
+            for one, two, three, four, five in zip(history_sample[0], history_sample[1], history_sample[2], history_sample[3], history_sample[4]):
+                choice.append(get_random_solution(one, two, three, four, five))
             solutions.append(choice)
+
         for solution in solutions:
             values.append((assignment(solution, clauses)))
-        max_index = values.index(max(values))
-        if solutions[max_index] not in history:
-            history.append(solutions[max_index])
-            solution = solutions[max_index]
+        max_index = 0
+        solution = solutions[0]
+        for i, value in enumerate(values):
+            if abs(current_value - value) > abs(current_value - values[max_index]):
+                solution, max_index = solutions[i], i
+        if solution not in history:
+            history.append(solution)
             break
-        else:
-            solution = [
-                random.choices([True, False], [0.5, 0.5], k=1)[0]
-                for _ in range(range_literal)
-            ]
-            break
+        # else:
+        #     solution = [
+        #         random.choices([True, False], [0.5, 0.5], k=1)[0]
+        #         for _ in range(range_literal)
+        #     ]
+        #     break
 
     nv = calculate_len_of_neighbors(range_literal)
     neighborhood = []

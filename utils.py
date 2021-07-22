@@ -55,5 +55,5 @@ def calculate_len_of_neighbors(n):
     return nv
 
 
-def get_random_solution(one, two):
-    return random.choices([one, two], [0.5, 0.5], k=1)[0]
+def get_random_solution(one, two, three, four, five):
+    return random.choices([one, two, three, four, five], [0.5, 0.5, 0.5, 0.5, 0.5], k=1)[0]
