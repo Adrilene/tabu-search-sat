@@ -1,4 +1,4 @@
-from configuration import tabu_size, delta_aspiration
+from configuration import tabu_size, delta_aspiration, delta_to_intensficate
 from math import factorial
 import random
 
@@ -25,7 +25,10 @@ def aspiration_by_objective(best_value, current_value):
 def aspiration_by_influence(best_value, current_value, optimal_value):
     if abs(best_value - current_value) >= delta_aspiration:
         return True
-    if optimal_value - best_value <= delta_aspiration and best_value > current_value:
+    if (
+        optimal_value - best_value <= delta_to_intensficate
+        and best_value > current_value
+    ):
         return True
     return False
 
@@ -49,6 +52,7 @@ def calculate_len_of_neighbors(n):
     if nv > 1000:
         return 1000
     return nv
+
 
 def get_random_solution(one, two):
     return random.choices([one, two], [0.5, 0.5], k=1)[0]

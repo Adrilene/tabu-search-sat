@@ -82,7 +82,7 @@ def tabu_search(initial_solution, clauses, range_literal, optimal_value):
                 is_intesificated = False
                 break
 
-        if current_value == previous_value:
+        if abs(current_value - previous_value) <= 1:
             count_repetitive_solution += 1
         else:
             count_repetitive_solution = 0

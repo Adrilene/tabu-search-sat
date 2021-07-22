@@ -5,6 +5,7 @@ from random import choice
 from datetime import datetime
 import sys
 
+
 def main():
     open("log.csv", "w").write("iteracao; current solution; current value\n")
     ini = time.time()
@@ -18,17 +19,20 @@ def main():
         clauses.append(list(map(int, line.replace("\n", "").strip().split(" "))))
 
     initial_solution = ([choice([True, False]) for _ in range(range_literal)], -1, -1)
-    optimal_value = range_clause
-    result, best_value, count, qtd_strategy = tabu_search(initial_solution, clauses, range_literal, optimal_value)
+    optimal_value = int(sys.argv[1]) if len(sys.argv) > 1 else range_clause
+    result, best_value, count, qtd_strategy = tabu_search(
+        initial_solution, clauses, range_literal, optimal_value
+    )
     end = time.time()
     result = list(map(int, result))
 
-    print(f'Resultado: {result}')
-    print(f'Valor ótimo: {best_value}')
-    print(f'Tempo de execução: {end - ini}')
-    print(f'Número de iterações: {count}')
+    print(f"Resultado: {result}")
+    print(f"Valor ótimo: {best_value}")
+    print(f"Tempo de execução: {end - ini}")
+    print(f"Número de iterações: {count}")
     print(f'Quantidade de Intensificações: {qtd_strategy["Intesified"]}')
     print(f'Quantidade de Diversificações: {qtd_strategy["Diversed"]}')
+
 
 if __name__ == "__main__":
     main()
